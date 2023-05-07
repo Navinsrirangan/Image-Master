@@ -7,6 +7,16 @@ from auth import auth_token
 import torch
 from torch import autocast
 from diffusers import StableDiffusionPipeline 
+import os
+import random
+
+# Create image directory
+l = list(range(1,10000))
+ls = iter(l)
+
+r = random.randint(1, 10000)
+os.mkdir(f"./Generate_Image_{r}")
+
 
 # Create the app
 app = tk.Tk()
@@ -29,7 +39,7 @@ def generate():
     with autocast(device): 
         image = pipe(prompt.get(), guidance_scale=8.5)["sample"][0]
     
-    image.save('generatedimage.png')
+    image.save(f"./Generate_Image_{r}/image{next(ls)}.png")
     img = ImageTk.PhotoImage(image)
     lmain.configure(image=img) 
 
